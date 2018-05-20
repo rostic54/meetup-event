@@ -38,6 +38,42 @@ function calculateOfTime( totalMilliseconds, separator, limit ) {
     return result < 10 ? '0' + result : result;
 
 }
+function isEmptyHost() {
+    var hostsItem = document.body.querySelectorAll('.hosts');
+    if( hostsItem.length ){
+        for( var i = 0; i < hostsItem.length ; i++ ){
+            var host = hostsItem[ i ];
+            var exictenceOfChildren = true;
+            while( exictenceOfChildren ){
+                var currentItemOfHosts = host;
+                var elem = host;
+                var searchOfText = function ( elem ) {
+                    if( elem.children.length ) {
+                        searchOfText(elem.children[0]);
+                    }
+
+                    if( elem.textContent && elem.textContent != '' ){
+                        return false;
+                    }
+                    if( elem.nextElementSibling ){
+                        searchOfText( elem.nextElementSibling );
+                    }
+
+                    var parent = elem.parentElement;
+                    if( parent.nextElementSibling ) {
+                        searchOfText( parent.nextElementSibling );
+                    }else {
+                       
+                    }
+                };
+                exictenceOfChildren = searchOfText( elem );
+            }
+            if( hostsItem[ i ].textContent )
+                hostsItem[ i ].style.backgroundColor = 'red';
+        }
+
+    }
+}
 
 function googleMap() {
     if ($('#map').length) {
@@ -94,6 +130,7 @@ function googleMap() {
 
 $(document).ready( function () {
    timer();
+   isEmptyHost();
 
 });
 

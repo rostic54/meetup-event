@@ -577,6 +577,57 @@ a:hover {
   display: inline-block;
   vertical-align: top; }
 
+table thead {
+  background-color: #94c859;
+  font-weight: bold; }
+
+table th {
+  border-color: red; }
+
+table tbody {
+  border-radius: 15px; }
+  table tbody tr:nth-child(even) {
+    background-color: #373737; }
+  table tbody tr:nth-child(odd) {
+    background-color: #4a454b; }
+
+table td:nth-child(even) {
+  position: relative;
+  padding-right: 250px; }
+  @media (max-width: 992px) {
+    table td:nth-child(even) {
+      padding-right: 150px; } }
+  @media (max-width: 576px) {
+    table td:nth-child(even) {
+      padding-right: 40px; } }
+  table td:nth-child(even) a {
+    position: absolute;
+    right: 200px;
+    top: 50%;
+    margin-top: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #000;
+    text-align: center;
+    padding: 5px;
+    background-color: #fff; }
+    @media (max-width: 992px) {
+      table td:nth-child(even) a {
+        right: 50px; } }
+    @media (max-width: 576px) {
+      table td:nth-child(even) a {
+        right: 5px; } }
+
+table td:nth-child(odd),
+table th:nth-child(odd) {
+  min-width: 200px;
+  text-align: center; }
+  @media (max-width: 576px) {
+    table td:nth-child(odd),
+    table th:nth-child(odd) {
+      min-width: 70px; } }
+
 img[style*="float: left"],
 img[style*="float:left"],
 img[align="left"] {
@@ -993,3 +1044,49 @@ body {
   text-align: center; }
   .topics__item img {
     padding-bottom: 40px; }
+    @media (max-width: 576px) {
+      .topics__item img {
+        width: 150px; } }
+
+.table-wrapper {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden; }
+
+.table {
+  margin-bottom: 0; }
+  .table thead th, .table thead td, .table tbody th, .table tbody td {
+    border: none; }
+
+.schedule {
+  color: #fff; }
+
+.hosts {
+  padding: 10px; }
+  .hosts__container {
+    padding: 15px;
+    border-radius: 15px;
+    background-color: #94c859;
+    height: 100%; }
+  .hosts__description {
+    border: 1px solid white; }
+    .hosts__description h4 {
+      border: 1px solid blue; }
+    .hosts__description p {
+      border: 1px solid red; }
+  .hosts__links {
+    border: 1px solid black; }
+    .hosts__links li {
+      border: 1px solid red; }
+  .hosts__img {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    .hosts__img--wrapper {
+      margin: auto; }
+      .hosts__img--wrapper img {
+        width: 100%; }
