@@ -1,136 +1,97 @@
-
-
-function timer( date ){
+function timer(date) {
     var clockBlock = $('.clock');
     var currentDate = +new Date();
-    if( clockBlock.length ){
-        if( !date ){
+    if (clockBlock.length) {
+        if (!date) {
 
-            var deadLine = +new Date( currentDate + ( 1000 * 3600 * 48 ) );
+            var deadLine = +new Date(currentDate + ( 1000 * 3600 * 48 ));
 
-        }else {
+        } else {
 
-            deadLine = Date.parse( date );
+            deadLine = Date.parse(date);
         }
-        var timerId = setInterval( function () {
-            if( currentDate >= deadLine ){
-                clearInterval( timerId );
+        var timerId = setInterval(function () {
+            if (currentDate >= deadLine) {
+                clearInterval(timerId);
             }
 
             var differentOfMilliseconds = ( deadLine - currentDate );
-            clockBlock[ 0 ].querySelector('.js-day').innerText =   calculateOfTime(differentOfMilliseconds, ( 1000 * 3600 * 24 ) ) ;
-            clockBlock[ 0 ].querySelector('.js-hours').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 * 3600 ), 24 );
-            clockBlock[ 0 ].querySelector('.js-minutes').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 * 60 ), 60 );
-            clockBlock[ 0 ].querySelector('.js-seconds').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 ), 60 );
+            clockBlock[0].querySelector('.js-day').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 * 3600 * 24 ));
+            clockBlock[0].querySelector('.js-hours').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 * 3600 ), 24);
+            clockBlock[0].querySelector('.js-minutes').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 * 60 ), 60);
+            clockBlock[0].querySelector('.js-seconds').innerText = calculateOfTime(differentOfMilliseconds, ( 1000 ), 60);
             currentDate += 1000;
 
-        }, 1000 );
+        }, 1000);
     }
 
 }
 
-function calculateOfTime( totalMilliseconds, separator, limit ) {
-     if( limit ){
-         var result = Math.floor( ( totalMilliseconds / separator ) % limit );
+function calculateOfTime(totalMilliseconds, separator, limit) {
+    if (limit) {
+        var result = Math.floor(( totalMilliseconds / separator ) % limit);
         return result < 10 ? '0' + result : result;
-     }
-    result = Math.floor( totalMilliseconds / separator );
+    }
+    result = Math.floor(totalMilliseconds / separator);
     return result < 10 ? '0' + result : result;
 
 }
 function isEmptyHost() {
     var hostsItem = document.body.querySelectorAll('.hosts');
-    if( hostsItem.length ){
-        for( var i = 0; i < hostsItem.length ; i++ ){
-            var host = hostsItem[ i ];
-            var exictenceOfChildren = true;
-            while( exictenceOfChildren ){
-                var currentItemOfHosts = host;
-                var elem = host;
-                var searchOfText = function ( elem ) {
-                    if( elem.children.length ) {
-                        searchOfText(elem.children[0]);
+    if (hostsItem.length) {
+        for (var i = 0; i < hostsItem.length; i++) {
+            var title = hostsItem[i].querySelector('h2');
+            if (title) {
+                if (!title.textContent && title.textContent == '') {
+                    var child = hostsItem[i].children[0];
+                    child.style.backgroundImage = 'none';
+                    child.style.backgroundColor = '#90d23c';
+                    for (var j = 0; j < child.children.length; j++) {
+                        child.children[j].style.display = 'none';
+                        child.children[j].style.minHeight = '150px';
                     }
-
-                    if( elem.textContent && elem.textContent != '' ){
-                        return false;
-                    }
-                    if( elem.nextElementSibling ){
-                        searchOfText( elem.nextElementSibling );
-                    }
-
-                    var parent = elem.parentElement;
-                    if( parent.nextElementSibling ) {
-                        searchOfText( parent.nextElementSibling );
-                    }else {
-                       
-                    }
-                };
-                exictenceOfChildren = searchOfText( elem );
+                }
             }
-            if( hostsItem[ i ].textContent )
-                hostsItem[ i ].style.backgroundColor = 'red';
+
         }
 
     }
 }
 
-function googleMap() {
-    if ($('#map').length) {
-        var map;
-        var image = 'img/map-pimp.png';
+function initMap() {
+    var uluru = {lat: -33.9133416, lng: 151.0971857};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: uluru,
+        disableDefaultUI: true
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
 
-        // coordinates for placemark
-        var markersArray = [
-            {
-                icon: image,
-                lat: 50.4501,
-                lng: 30.523400000000038
-            }
-        ];
-
-        var arrLeng = $(markersArray).length;
-
-        function initialize() {
-            // map option
-            var mapOptions = {
-                center: new google.maps.LatLng(50.4501, 30.523400000000038),
-                disableDefaultUI: true,
-                zoom: 11,
-                navigationControl: !1,
-                mapTypeControl: !1,
-                scaleControl: !1,
-                streetViewControl: !1,
-                panControl: !0,
-                zoomControl: !0,
-                // styles: styles
-            };
-
-            // define google map
-            map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-            // markers List
-            var i = 0;
-            var markerArray = new Array();
-            for (i; i < arrLeng; i++) {
-                markerArray[i] = new google.maps.Marker({
-                    position: new google.maps.LatLng(markersArray[i].lat, markersArray[i].lng),
-                    map: map,
-                    icon: image
-                });
-            }
-        }
-
-        // init map
-        google.maps.event.addDomListener(window, 'load', initialize);
-    }
+    });
 }
 
+function toggleMap() {
 
+    document.body.querySelector('.js-seen').onclick = function ( ) {
 
-$(document).ready( function () {
-   timer();
-   isEmptyHost();
+            var arrOfBtn = document.body.querySelectorAll('.js-map-toggle');
+            arrOfBtn.forEach( function (item) {
+                item.classList.toggle('js-seen');
+                item.closest('.js-parent').classList.toggle('js-none');
+
+            });
+                document.body.querySelector('.js-shadow').classList.toggle('js-none');
+              toggleMap();
+        }
+
+}
+
+$(document).ready(function () {
+    timer();
+    isEmptyHost();
+    toggleMap();
 
 });
 
